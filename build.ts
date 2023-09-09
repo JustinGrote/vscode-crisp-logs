@@ -3,6 +3,7 @@
 import { readFileSync, writeFileSync } from "fs"
 import { load } from "js-yaml"
 
+const basefile = 'log.tmLanguage'
 type Variables = Record<string, string>
 type Grammar = {
 	variables?: Variables
@@ -20,7 +21,7 @@ function replaceVariables(content: string, variables: Variables): string {
 	})
 }
 
-const grammarYaml = readFileSync('tslog.tmLanguage.yaml', { encoding: 'utf8' })
+const grammarYaml = readFileSync(`${basefile}.yaml`, { encoding: 'utf8' })
 let grammar = load(grammarYaml) as Grammar
 
 const variables = grammar.variables
@@ -30,5 +31,5 @@ if (variables) {
 
 delete grammar.variables
 const grammarJson = JSON.stringify(grammar, undefined, 2)
-writeFileSync('tslog.tmLanguage.json', grammarJson)
-console.log('tslog.tmLanguage.json written')
+writeFileSync(`${basefile}.json`, grammarJson)
+console.log(`Output: ${basefile}.json`)

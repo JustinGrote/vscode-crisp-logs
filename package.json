@@ -3,21 +3,21 @@
 	"displayName": "Crisp Logs Highlighter",
 	"description": "Enhanced log highlighting for vscode log files and output panels",
 	"version": "0.0.0-source",
-	"publisher": "justingrote",
+	"publisher": "justin-grote",
 	"contributes": {
 		"languages": [
 			{
-				"id": "tslog",
+				"id": "Log",
 				"extensions": [
-					".tslog"
+					".log"
 				]
 			}
 		],
 		"grammars": [
 			{
-				"language": "tslog",
-				"path": "./tslog.tmLanguage.json",
-				"scopeName": "text.tslog",
+				"language": "Log",
+				"scopeName": "text.log",
+				"path": "./log.tmLanguage.json",
 				"embeddedLanguages": {
 					"meta.embedded.block.json": "json",
 					"meta.embedded.block.powershell": "powershell"
@@ -25,7 +25,7 @@
 			}
 		]
 	},
-	"icon": "icon.png",
+	"icon": "logo.png",
 	"license": "MIT",
 	"preview": true,
 	"repository": "https://github.com/justingrote/vscode-crisp-logs",
@@ -89,7 +89,7 @@
 		"grammar": "tsx build.ts",
 		"build": "pnpm run grammar && vsce package --no-update-package-json --no-git-tag-version --no-dependencies",
 		"publish": "pnpm run publishStable --pre-release --no-git-tag-version",
-		"publishStable": "vsce publish --no-update-package-json --no-dependencies",
+		"publishStable": "pnpm run build && vsce publish --no-update-package-json --no-dependencies",
 		"tsc": "tsc",
 		"build-watch": "pnpm run esbuild-base --watch",
 		"build-test-watch": "pnpm run tsc --incremental --watch",

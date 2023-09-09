@@ -22,11 +22,22 @@ Braces Styles
 Timestamps
 18:30:29.561 INF Short Time/Uptime
 00021586.561 INF Alternate Uptime. Leading zeroes OK, must have at least two leading digits
-21586.56 <-- Should not work if milliseconds doesnt have 3 leading digits
+21586.56 <-- Should not work if milliseconds doesnt have 3 leading digits "test" mnkjn 'test'
 
 File Paths
 00.111 INF Windows Path: C:\temp\mydocs
 00.111 INF URL: http://www.google.com
+2023-09-08 21:21:35.595 [error] Error: command 'extension.js-debug.npmScript' already exists
+    at registerCommand (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:107:81350)
+    at Object.registerCommand (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:122:20450)
+    at $e (c:\Users\jgrote\.vscode\extensions\ms-vscode.js-debug-nightly-2023.8.3017\src\extension.js:67:10290)
+    at f_e (c:\Users\jgrote\.vscode\extensions\ms-vscode.js-debug-nightly-2023.8.3017\src\extension.js:160:6382)
+    at Function.eb (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:118:13032)
+    at Function.db (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:118:12750)
+    at c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:118:10857
+    at E.n (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:107:6206)
+    at E.m (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:107:6169)
+    at E.l (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:107:5626)
 
 Embeds
 00.111 WRN JSON:{

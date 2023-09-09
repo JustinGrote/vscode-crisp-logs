@@ -3,8 +3,8 @@
 # Lots of regexes borrowed with love from: https://github.com/emilast/vscode-logfile-highlighter/blob/master/syntaxes/log.tmLanguage
 
 # Default colors optimized for the Dark+ theme
-name: TSLog File
-scopeName: text.tslog
+name: Log File
+scopeName: text.log
 variables:
   datetime: (^|\n)(\d{4}-\d{2}-\d{2}[\s\:T])?(?:\d{2,}:\d{2}:\d{2}\.\d{3}|\d{2,}.\d{3})(Z|[\+\-]\d{2}:\d{2})?
   begin: "[\\[\\(\\{]"
@@ -68,11 +68,19 @@ patterns:
   - match: (?xi)\b[a-z]+://\S+\b/?
     name: string.unquoted log.path.uri
 
+# Strings
+  - match: \"[^"]*\"
+    name: string.quoted.double log.string
+  - match: (?<![\w])'[^']*'
+    name: string.quoted.single log.string
+
 #Exceptions
   - match: ^[\t ]*at
-    name: invalid emphasis log.exception
-  - match: (?<=^[\t ]*at\s)[\w.]+$
-    name: emphasis log.exception
+    name: string.regexp invalid emphasis log.exception
+  - match: (?<=^[\t ]*at\s)([\w\$\.]+)
+    name: string.regexp emphasis log.exception
+  - match: (?<=<<<datetime>>>\s)\b([a-zA-Z.]*Exception)\b
+    name: string.regexp invalid emphasis log.exceptiontype
 
 # Embedded Languages
   - begin: JSON:{
