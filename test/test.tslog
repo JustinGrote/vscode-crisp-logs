@@ -1,0 +1,52 @@
+2023-09-07 18:30:29.561 SLY Test Message
+2023-09-07 18:30:29.561 TRC Test Message
+2023-09-07 18:30:29.561 VRB Test Message
+2023-09-07 18:30:29.561 INF Test Message
+2023-09-07 18:30:29.561 WRN Test Message
+2023-09-07 18:30:29.561 ERR Test Message
+2023-09-07 18:30:29.561 FTL Test Message
+
+Shorthands
+2023-09-07 18:30:29.561 I Test Message
+2023-09-07 18:30:29.561 IF Test Message
+2023-09-07 18:30:29.561 INF Test Message
+2023-09-07 18:30:29.561 INFO Test Message
+2023-09-07 18:30:29.561 info Case Insensitive
+
+Braces Styles
+2023-09-07 18:30:29.561 [INFO] Test Message
+2023-09-07 18:30:29.561 (i) Test Message
+2023-09-07 18:30:29.561 {INFO} Test Message
+2023-09-07 18:30:29.561 /INFO/ <-- This one shouldnt work
+
+Timestamps
+18:30:29.561 INF Short Time/Uptime
+00021586.561 INF Alternate Uptime. Leading zeroes OK, must have at least two leading digits
+21586.56 <-- Should not work if milliseconds doesnt have 3 leading digits
+
+File Paths
+00.111 INF Windows Path: C:\temp\mydocs
+00.111 INF URL: http://www.google.com
+
+Embeds
+00.111 WRN JSON:{
+    "test":5,
+    {"test2": ""}
+}:JSON
+00.111 WRN PS:{
+    get-item 'test' | foreach-object {
+        throw 'oops'
+    }
+}:PS
+
+TRACE <-- Should not highlight
+[dbg] <-- should not highlight
+
+2023-09-07 18:30:29.561 [info] Watching for Pester file changes in c:\Users\jgrote\Projects\tslog-vscode
+2023-09-07 18:30:29.561 [info] Scanning workspace for Pester files: c:\Users\jgrote\Projects\tslog-vscode
+2023-09-07 18:30:29.561 [debug] Scanning for files matching pattern:  **/*.[tT]ests.[pP][sS]1
+2023-09-07 19:08:46.149 [info] Disposing Pester Test Controller Pester: tslog-vscode
+2023-09-07 19:09:05.878 [info] Watching for Pester file changes in c:\Users\jgrote\Projects\tslog-vscode
+2023-09-07 19:09:05.878 [info] Scanning workspace for Pester files: c:\Users\jgrote\Projects\tslog-vscode
+2023-09-07 19:09:05.879 [debug] Scanning for files matching pattern: {"$mid":1,"fsPath":"c:\\Users\\jgrote\\Projects\\tslog-vscode","_sep":1,"external":"file:///c%3A/Users/jgrote/Projects/tslog-vscode","path":"/C:/Users/jgrote/Projects/tslog-vscode","scheme":"file"} Scripts/PesterInterface.[tT]ests.[pP][sS]1
+

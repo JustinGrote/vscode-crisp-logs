@@ -1,0 +1,96 @@
+# yaml-language-server: $schema=https://json.schemastore.org/tmlanguage.json
+
+# Lots of regexes borrowed with love from: https://github.com/emilast/vscode-logfile-highlighter/blob/master/syntaxes/log.tmLanguage
+
+# Default colors optimized for the Dark+ theme
+name: TSLog File
+scopeName: text.tslog
+variables:
+  datetime: (^|\n)(\d{4}-\d{2}-\d{2}[\s\:T])?(?:\d{2,}:\d{2}:\d{2}\.\d{3}|\d{2,}.\d{3})(Z|[\+\-]\d{2}:\d{2})?
+  begin: "[\\[\\(\\{]"
+  end: "[\\]\\)\\}]"
+
+patterns:
+#Timestamp
+  - match: <<<datetime>>>
+    name: punctuation.definition.tag log.timestamp
+
+# Log Levels
+  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:S|SY|SLY|SLLY|SILLY)\b<<<end>>>?\s
+    name: comment log.silly
+  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:T|TR|TRC|TRCE|TRACE)\b<<<end>>>?\s
+    name: keyword log.trace
+  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:D|DB|DBG|DEBG|DEBUG)\b<<<end>>>?\s
+    name: keyword.control log.debug
+  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:I|IF|INF|INFO)\b<<<end>>>?\s
+    name: variable log.info
+  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:V|VR|VRB|VRBS|VRBSE|VERBOSE)\b<<<end>>>?\s
+    name: variable log.verbose
+  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:W|WR|WRN|WARN|WARNING)\b<<<end>>>?\s
+    name: markup.deleted log.warn log.warning
+  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:E|ER|ERR|ERRO|ERROR)\b<<<end>>>?\s
+    name: invalid log.error
+  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:F|FT|FTL|FAT|FATA|FATAL)\b<<<end>>>?\s
+    name: emphasis invalid log.fatal
+
+
+# Constants
+  - match: \b([0-9a-fA-F]{40}|[0-9a-fA-F]{10}|[0-9a-fA-F]{7})\b
+    name: constant.language log.constant git.commitid
+  - match: \b[0-9a-fA-F]{8}[-]?([0-9a-fA-F]{4}[-]?){3}[0-9a-fA-F]{12}\b
+    name: constant.language log.constant guid
+  - match: \s([0-9]+(\.[0-9]+)?)\s
+    name: constant.numeric log.constant
+  - match: \b(true|false|null)\b
+    name: constant.language log.constant
+  - match: \b(0x[a-fA-F0-9]+)\b
+    name: constant.numeric log.constant constant.hex
+  - match: \b[A-Fa-f0-9]{64}\b
+    name: constant.numeric log.constant constant.sha256
+  - match: \b([0-9a-fA-F]{2,}[:-])+[0-9a-fA-F]{2,}+\b
+    name: constant.numeric log.constant constant.macaddress
+
+# Paths
+  - match: >
+      (?xi)
+      ([a-z]:)
+      [\\/]{1,2}
+      (?:[^\\/:*?"<>|\r\n]+[\\/]{1,2})*
+      [^\\/:*?"<>|\r\n]*
+    name: string.unquoted log.path.windows
+  - match: >
+      (?xi)
+      ([a-z]:)
+      [\\/]{1,2}
+      (?:[^\\/:*?"<>|\r\n]+[\\/]{1,2})*
+      [^\\/:*?"<>|\r\n]*
+    name: string.unquoted log.path.windows
+  - match: (?xi)\b[a-z]+://\S+\b/?
+    name: string.unquoted log.path.uri
+
+#Exceptions
+  - match: ^[\t ]*at
+    name: invalid emphasis log.exception
+  - match: (?<=^[\t ]*at\s)[\w.]+$
+    name: emphasis log.exception
+
+# Embedded Languages
+  - begin: JSON:{
+    beginCaptures:
+      '0': {name: comment}
+    endCaptures:
+      '0': {name: comment}
+    end: \}:JSON
+    name: meta.embedded.block.json
+    patterns:
+      - include: source.json
+
+  - begin: PS:{
+    beginCaptures:
+      '0': {name: comment}
+    endCaptures:
+      '0': {name: comment}
+    end: \}\:PS
+    name: meta.embedded.block.powershell
+    patterns:
+      - include: source.powershell

@@ -1,0 +1,102 @@
+{
+	"name": "crisp-logs",
+	"displayName": "Crisp Logs Highlighter",
+	"description": "Enhanced log highlighting for vscode log files and output panels",
+	"version": "0.0.0-source",
+	"publisher": "justingrote",
+	"contributes": {
+		"languages": [
+			{
+				"id": "tslog",
+				"extensions": [
+					".tslog"
+				]
+			}
+		],
+		"grammars": [
+			{
+				"language": "tslog",
+				"path": "./tslog.tmLanguage.json",
+				"scopeName": "text.tslog",
+				"embeddedLanguages": {
+					"meta.embedded.block.json": "json",
+					"meta.embedded.block.powershell": "powershell"
+				}
+			}
+		]
+	},
+	"icon": "icon.png",
+	"license": "MIT",
+	"preview": true,
+	"repository": "https://github.com/justingrote/vscode-crisp-logs",
+	"engines": {
+		"vscode": "^1.81.1"
+	},
+	"packageManager": "pnpm@8.6.5",
+	"keywords": [
+		"Log",
+		"TypeScript",
+		"Highlight"
+	],
+	"categories": [
+		"Programming Languages",
+		"Visualization"
+	],
+	"devDependencies": {
+		"@types/chai": "^4.3.5",
+		"@types/js-yaml": "^4.0.5",
+		"@types/mocha": "^10.0.1",
+		"@types/node": "^16.18.39",
+		"@typescript-eslint/eslint-plugin": "^5.62.0",
+		"@typescript-eslint/parser": "^5.62.0",
+		"@vscode/dts": "^0.4.0",
+		"@vscode/test-electron": "^2.3.3",
+		"@vscode/vsce": "^2.19.0",
+		"chai": "^4.3.7",
+		"esbuild": "^0.18.16",
+		"eslint": "^8.45.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-config-standard-with-typescript": "^35.0.0",
+		"eslint-plugin-import": "^2.27.5",
+		"eslint-plugin-n": "^15.7.0",
+		"eslint-plugin-promise": "^6.1.1",
+		"js-yaml": "^4.1.0",
+		"mocha": "^10.2.0",
+		"mocha-multi-reporters": "^1.5.1",
+		"prettier": "^2.8.8",
+		"prettier-eslint": "^15.0.1",
+		"pug": "^3.0.2",
+		"sinon": "^15.2.0",
+		"source-map-support": "^0.5.21",
+		"tsx": "^3.12.8",
+		"typescript": "^5.1.6",
+		"utility-types": "^3.10.0"
+	},
+	"badges": [
+		{
+			"url": "https://img.shields.io/github/stars/justingrote/vscode-crisp-logs?style=social",
+			"description": "Stars",
+			"href": "https://github.com/justingrote/vscode-crisp-logs"
+		},
+		{
+			"url": "https://img.shields.io/github/workflow/status/justingrote/vscode-crisp-logs/%F0%9F%91%B7%E2%80%8D%E2%99%82%EF%B8%8F%20Build%20Visual%20Studio%20Code%20Extension",
+			"description": "Build",
+			"href": "https://github.com/justingrote/vscode-crisp-logs/actions/workflows/ci.yml"
+		}
+	],
+	"scripts": {
+		"esbuild-base": "esbuild --format=cjs --platform=node --bundle --outdir=dist --external:vscode --external:@vscode/test-electron extension=src/extension.ts --metafile=dist/esbuild.json --sourcemap",
+		"grammar": "tsx build.ts",
+		"build": "pnpm run grammar && vsce package --no-update-package-json --no-git-tag-version --no-dependencies",
+		"publish": "pnpm run publishStable --pre-release --no-git-tag-version",
+		"publishStable": "vsce publish --no-update-package-json --no-dependencies",
+		"tsc": "tsc",
+		"build-watch": "pnpm run esbuild-base --watch",
+		"build-test-watch": "pnpm run tsc --incremental --watch",
+		"lint": "prettier --check .",
+		"test-powershell": "mocha --exit -b dist/src/**/*.test.js",
+		"test": "node ./dist/test/RunTests.js",
+		"download-api": "vscode-dts main",
+		"postdownload-api": "vscode-dts main"
+	}
+}
