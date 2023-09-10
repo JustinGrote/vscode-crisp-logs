@@ -4,6 +4,9 @@
 	"description": "Enhanced log highlighting for vscode log files and output panels",
 	"version": "0.0.0-source",
 	"publisher": "justin-grote",
+	"extensionKind": [
+		"ui"
+	],
 	"contributes": {
 		"languages": [
 			{

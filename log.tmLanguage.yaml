@@ -6,9 +6,15 @@
 name: Log File
 scopeName: text.log
 variables:
-  datetime: (^|\n)(\d{4}-\d{2}-\d{2}[\s\:T])?(?:\d{2,}:\d{2}:\d{2}\.\d{3}|\d{2,}.\d{3})(Z|[\+\-]\d{2}:\d{2})?
+  date: \d{4}-\d{2}-\d{2}[\s\:T]
+  time: \d{2,}:\d{2}:\d{2}\.\d{3}|\d{2,}.\d{3})(Z|[\+\-]\d{2}:\d{2}
+  datetime: (<<<date>>>)?(?:<<<time>>>)?
   begin: "[\\[\\(\\{]"
   end: "[\\]\\)\\}]"
+
+  # Lookbehind Assertions
+  hasLogTimeStamp: (?im)(^|\n)(?<=<<<datetime>>>\s) #A lookbehind to indicate that the line starts with a timestamp
+  hasLogLevel: \b<<<begin>>>(?:\w{1,7})<<<end>>>\b\s
 
 patterns:
 #Timestamp
@@ -16,21 +22,21 @@ patterns:
     name: punctuation.definition.tag log.timestamp
 
 # Log Levels
-  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:S|SY|SLY|SLLY|SILLY)\b<<<end>>>?\s
+  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:S|SY|SLY|SLLY|SILLY)\b<<<end>>>?\s
     name: comment log.silly
-  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:T|TR|TRC|TRCE|TRACE)\b<<<end>>>?\s
+  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:T|TR|TRC|TRCE|TRACE)\b<<<end>>>?\s
     name: keyword log.trace
-  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:D|DB|DBG|DEBG|DEBUG)\b<<<end>>>?\s
+  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:D|DB|DBG|DEBG|DEBUG)\b<<<end>>>?\s
     name: keyword.control log.debug
-  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:I|IF|INF|INFO)\b<<<end>>>?\s
+  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:I|IF|INF|INFO)\b<<<end>>>?\s
     name: variable log.info
-  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:V|VR|VRB|VRBS|VRBSE|VERBOSE)\b<<<end>>>?\s
+  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:V|VR|VRB|VRBS|VRBSE|VERBOSE)\b<<<end>>>?\s
     name: variable log.verbose
-  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:W|WR|WRN|WARN|WARNING)\b<<<end>>>?\s
+  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:W|WR|WRN|WARN|WARNING)\b<<<end>>>?\s
     name: markup.deleted log.warn log.warning
-  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:E|ER|ERR|ERRO|ERROR)\b<<<end>>>?\s
+  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:E|ER|ERR|ERRO|ERROR)\b<<<end>>>?\s
     name: invalid log.error
-  - match: (?im)(?<=<<<datetime>>>\s)<<<begin>>>?\b(?:F|FT|FTL|FAT|FATA|FATAL)\b<<<end>>>?\s
+  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:F|FT|FTL|FAT|FATA|FATAL)\b<<<end>>>?\s
     name: emphasis invalid log.fatal
 
 
