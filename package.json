@@ -100,6 +100,7 @@
 		"test-powershell": "mocha --exit -b dist/src/**/*.test.js",
 		"test": "node ./dist/test/RunTests.js",
 		"download-api": "vscode-dts main",
-		"postdownload-api": "vscode-dts main"
+		"postdownload-api": "vscode-dts main",
+		"vscode:prepublish": "pnpm run build"
 	}
 }
