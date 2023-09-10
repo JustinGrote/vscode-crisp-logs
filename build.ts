@@ -9,8 +9,8 @@ type Resolvers = Map<string, string>
 type Grammar = {
 	variables?: Variables
 }
-const tokenBegin = '\\$\\{'
-const tokenEnd = '\\}'
+const tokenBegin = '<<'
+const tokenEnd = '>>'
 
 /** Recursively resolves all variable values that may reference each other */
 function resolveVariables(variables: Variables) {

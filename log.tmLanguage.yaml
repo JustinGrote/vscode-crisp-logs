@@ -8,37 +8,51 @@ scopeName: text.log
 variables:
   date: \d{4}-\d{2}-\d{2}[\s\:T]
   time: \d{2,}:\d{2}:\d{2}\.\d{3}|\d{2,}.\d{3})(Z|[\+\-]\d{2}:\d{2}
-  datetime: (<<<date>>>)?(?:<<<time>>>)?
+  datetime: (^|\s)(<<date>>)?(?:<<time>>)?
   begin: "[\\[\\(\\{]"
   end: "[\\]\\)\\}]"
+  anyLogLevel: \<<begin>>?\b(?:\w{1,7})\b<<end>>?\s
+  function: \<<begin>>?\b[a-zA-Z]+?[\.|\#|\_]+?\w+?\b<<end>>?
 
-  # Lookbehind Assertions
-  hasLogTimeStamp: (?im)(^|\n)(?<=<<<datetime>>>\s) #A lookbehind to indicate that the line starts with a timestamp
-  hasLogLevel: \b<<<begin>>>(?:\w{1,7})<<<end>>>\b\s
+  # Assertions
+  #A lookbehind to indicate that the line starts with a timestamp
+  hasLogTime: (?<=(^|\n)<<datetime>>\s)
+  #A lookbehind to indicate that the line starts with a timestamp and log level
+  hasLogTimeAndLevel: (?<=(^|\n)<<datetime>>\s[^\s]+?\s)
+  #A lookbehind to indicate that the line starts with a timestamp and log level
+  hasLogTimeAndLevelAndFunction: (?<=(^|\n)<<datetime>>\s[^\s]+?\s<<function>>)
 
 patterns:
-#Timestamp
-  - match: <<<datetime>>>
+# Functions
+  - match: (?im)<<hasLogTimeAndLevel>><<begin>>?\b[a-zA-Z]+?[\.|\#|\_]+?\w+?\b<<end>>?
+    name: entity.name.function log.function
+
+# Brackets followed by colon
+  # - match: >
+  #     (?im)<<hasLogTimeAndLevel>>
+  #   name: entity.name.function log.function
+
+# Timestamp
+  - match: <<datetime>>
     name: punctuation.definition.tag log.timestamp
 
 # Log Levels
-  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:S|SY|SLY|SLLY|SILLY)\b<<<end>>>?\s
+  - match: (?im)<<hasLogTime>><<begin>>?\b(?:S|SY|SLY|SLLY|SILLY)\b<<end>>?\s
     name: comment log.silly
-  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:T|TR|TRC|TRCE|TRACE)\b<<<end>>>?\s
+  - match: (?im)<<hasLogTime>><<begin>>?\b(?:T|TR|TRC|TRCE|TRACE)\b<<end>>?\s
     name: keyword log.trace
-  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:D|DB|DBG|DEBG|DEBUG)\b<<<end>>>?\s
+  - match: (?im)<<hasLogTime>><<begin>>?\b(?:D|DB|DBG|DEBG|DEBUG)\b<<end>>?\s
     name: keyword.control log.debug
-  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:I|IF|INF|INFO)\b<<<end>>>?\s
+  - match: (?im)<<hasLogTime>><<begin>>?\b(?:I|IF|INF|INFO)\b<<end>>?\s
     name: variable log.info
-  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:V|VR|VRB|VRBS|VRBSE|VERBOSE)\b<<<end>>>?\s
+  - match: (?im)<<hasLogTime>><<begin>>?\b(?:V|VR|VRB|VRBS|VRBSE|VERBOSE)\b<<end>>?\s
     name: variable log.verbose
-  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:W|WR|WRN|WARN|WARNING)\b<<<end>>>?\s
+  - match: (?im)<<hasLogTime>><<begin>>?\b(?:W|WR|WRN|WARN|WARNING)\b<<end>>?\s
     name: markup.deleted log.warn log.warning
-  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:E|ER|ERR|ERRO|ERROR)\b<<<end>>>?\s
+  - match: (?im)<<hasLogTime>><<begin>>?\b(?:E|ER|ERR|ERRO|ERROR)\b<<end>>?\s
     name: invalid log.error
-  - match: <<<hasLogTimeStamp>>><<<begin>>>?\b(?:F|FT|FTL|FAT|FATA|FATAL)\b<<<end>>>?\s
+  - match: (?im)<<hasLogTime>><<begin>>?\b(?:F|FT|FTL|FAT|FATA|FATAL)\b<<end>>?\s
     name: emphasis invalid log.fatal
-
 
 # Constants
   - match: \b([0-9a-fA-F]{40}|[0-9a-fA-F]{10}|[0-9a-fA-F]{7})\b
@@ -53,7 +67,7 @@ patterns:
     name: constant.numeric log.constant constant.hex
   - match: \b[A-Fa-f0-9]{64}\b
     name: constant.numeric log.constant constant.sha256
-  - match: \b([0-9a-fA-F]{2,}[:-])+[0-9a-fA-F]{2,}+\b
+  - match: ([A-Fa-f0-9]{2}[\:\-]?){5}[A-Fa-f0-9]{2}
     name: constant.numeric log.constant constant.macaddress
 
 # Paths
@@ -84,8 +98,8 @@ patterns:
   - match: ^[\t ]*at
     name: string.regexp invalid emphasis log.exception
   - match: (?<=^[\t ]*at\s)([\w\$\.]+)
-    name: string.regexp emphasis log.exception
-  - match: (?<=<<<datetime>>>\s)\b([a-zA-Z.]*Exception)\b
+    name: entity.name.function log.exception.function
+  - match: (?<=<<datetime>>\s)\b([a-zA-Z.]*Exception)\b
     name: string.regexp invalid emphasis log.exceptiontype
 
 # Embedded Languages
