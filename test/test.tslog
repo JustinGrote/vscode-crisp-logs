@@ -27,6 +27,19 @@ Timestamps
 File Paths
 00.111 INF Windows Path: C:\temp\mydocs
 00.111 INF URL: http://www.google.com
+
+Embeds
+00.111 WRN JSON:{
+    "test":5,
+    {"test2": ""}
+}:JSON
+00.111 WRN PS:{
+    get-item 'test' | foreach-object {
+        throw 'oops'
+    }
+}:PS
+
+Exceptions
 2023-09-08 21:21:35.595 [error] Error: command 'extension.js-debug.npmScript' already exists
     at registerCommand (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:107:81350)
     at Object.registerCommand (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:122:20450)
@@ -39,16 +52,13 @@ File Paths
     at E.m (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:107:6169)
     at E.l (c:\Users\jgrote\AppData\Local\Programs\Microsoft VS Code\resources\app\out\vs\workbench\api\node\extensionHostProcess.js:107:5626)
 
-Embeds
-00.111 WRN JSON:{
-    "test":5,
-    {"test2": ""}
-}:JSON
-00.111 WRN PS:{
-    get-item 'test' | foreach-object {
-        throw 'oops'
-    }
-}:PS
+Function Names
+00.111 INF [Test.Function] Something happened
+00.111 INF Test#Function Something happened
+00.111 INF Test#_Function Something happened
+00.111 INF Test.Function Something happened
+00.111 INF TestFunction <-- Needs some kind of separator to detect
+
 
 TRACE <-- Should not highlight
 [dbg] <-- should not highlight
