@@ -23,6 +23,7 @@ Timestamps
 18:30:29.561 INF Short Time/Uptime
 00021586.561 INF Alternate Uptime. Leading zeroes OK, must have at least two leading digits
 21586.56 <-- Should not work if milliseconds doesnt have 3 leading digits "test" mnkjn 'test'
+2023-09-09 21:24:52.312 [info] Searching for existing authentication session with ID 516dffd36e384de1
 
 File Paths
 00.111 INF Windows Path: C:\temp\mydocs

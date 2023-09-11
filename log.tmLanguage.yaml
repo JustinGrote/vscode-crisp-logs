@@ -23,8 +23,16 @@ variables:
   hasLogTimeAndLevelAndFunction: (?<=(^|\n)<<datetime>>\s[^\s]+?\s<<function>>)
 
 patterns:
-# Functions
-  - match: (?im)<<hasLogTimeAndLevel>><<begin>>?\b[a-zA-Z]+?[\w\.#_\-]+?\w(\s|<<end>>)
+# Functions defined with punctuation
+  - match: (?im)<<hasLogTimeAndLevel>>\b[a-zA-Z]+?([\.#_\-]+\w+?)+?\b\s
+    name: entity.name.function log.function
+
+# Functions defined by brackets/braces/parens
+  - match: (?im)<<hasLogTimeAndLevel>><<begin>>.+?<<end>>\s
+    name: entity.name.function log.function
+
+# Commands defined with a right arrow (Git)
+  - match: (?im)<<hasLogTimeAndLevel>>\>.+$
     name: entity.name.function log.function
 
 # Brackets followed by colon
@@ -44,13 +52,13 @@ patterns:
   - match: (?im)<<hasLogTime>><<begin>>?\b(?:D|DB|DBG|DEBG|DEBUG)\b<<end>>?\s
     name: keyword.control log.debug
   - match: (?im)<<hasLogTime>><<begin>>?\b(?:I|IF|INF|INFO)\b<<end>>?\s
-    name: variable log.info
+    name: variable debugConsole.infoForeground log.info
   - match: (?im)<<hasLogTime>><<begin>>?\b(?:V|VR|VRB|VRBS|VRBSE|VERBOSE)\b<<end>>?\s
     name: variable log.verbose
   - match: (?im)<<hasLogTime>><<begin>>?\b(?:W|WR|WRN|WARN|WARNING)\b<<end>>?\s
-    name: markup.deleted log.warn log.warning
+    name: markup.deleted debugConsole.warningForeground log.warn log.warning
   - match: (?im)<<hasLogTime>><<begin>>?\b(?:E|ER|ERR|ERRO|ERROR)\b<<end>>?\s
-    name: invalid log.error
+    name: invalid debugConsole.errorForeground log.error
   - match: (?im)<<hasLogTime>><<begin>>?\b(?:F|FT|FTL|FAT|FATA|FATAL)\b<<end>>?\s
     name: emphasis invalid log.fatal
 
