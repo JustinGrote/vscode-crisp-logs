@@ -7,8 +7,8 @@ name: Log File
 scopeName: text.log
 variables:
   date: \d{4}-\d{2}-\d{2}[\s\:T]
-  time: \d{2,}:\d{2}:\d{2}\.\d{3}|\d{2,}.\d{3})(Z|[\+\-]\d{2}:\d{2}
-  datetime: (^|\s)(<<date>>)?(?:<<time>>)?
+  time: \d{2,}:\d{2}:\d{2}(?:\.\d{3})?(?:Z|[\+\-]\d{2}:\d{2})?
+  datetime: (?:^|\s)(?:<<date>>)?(?:<<time>>)?
   begin: "[\\[\\(\\{]"
   end: "[\\]\\)\\}]"
   anyLogLevel: \<<begin>>?\b(?:\w{1,7})\b<<end>>?\s
@@ -16,11 +16,11 @@ variables:
 
   # Assertions
   #A lookbehind to indicate that the line starts with a timestamp
-  hasLogTime: (?<=(^|\n)<<datetime>>\s)
+  hasLogTime: (?<=(?:^|\n)<<datetime>>\s)
   #A lookbehind to indicate that the line starts with a timestamp and log level
-  hasLogTimeAndLevel: (?<=(^|\n)<<datetime>>\s[^\s]+?\s)
+  hasLogTimeAndLevel: (?<=(?:^|\n)<<datetime>>\s[^\s]+?\s)
   #A lookbehind to indicate that the line starts with a timestamp and log level
-  hasLogTimeAndLevelAndFunction: (?<=(^|\n)<<datetime>>\s[^\s]+?\s<<function>>)
+  hasLogTimeAndLevelAndFunction: (?<=(?:^|\n)<<datetime>>\s[^\s]+?\s<<function>>)
 
 patterns:
 # Functions defined with punctuation
@@ -30,15 +30,6 @@ patterns:
 # Functions defined by brackets/braces/parens
   - match: (?im)<<hasLogTimeAndLevel>><<begin>>.+?<<end>>\s
     name: entity.name.function log.function
-
-# Commands defined with a right arrow (Git)
-  - match: (?im)<<hasLogTimeAndLevel>>\>.+$
-    name: entity.name.function log.function
-
-# Brackets followed by colon
-  # - match: >
-  #     (?im)<<hasLogTimeAndLevel>>
-  #   name: entity.name.function log.function
 
 # Timestamp
   - match: <<datetime>>
@@ -130,3 +121,17 @@ patterns:
     name: meta.embedded.block.powershell
     patterns:
       - include: source.powershell
+
+
+### Specific log enhancements
+
+# Git
+  # Git commands
+  - match: (?im)<<hasLogTimeAndLevel>>(\>\sgit\s.+)(\[.+$)
+    captures:
+      1:
+        name: entity.name.function log.function.git.command
+      2:
+        name: constant.numeric log.constant.numeric.git.duration
+
+

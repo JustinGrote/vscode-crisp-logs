@@ -4,7 +4,8 @@
 
 Crisp Logs provides a better default log highlighting experience, both for log files and for the vscode output window.
 
-This extension replaces the default builtin logging highlighter for VSCode.
+This extension replaces the default builtin logging highlighter for VSCode. It is optimized for logs that follow a format of "timestamp severity message" format.
+
 
 ![Alt text](images/README/logExample.png)
 
@@ -51,7 +52,12 @@ You can also specify a parent of a token to affect all tokens of that type. For 
 - `log.string.double`
 - `log.string.single`
 - `log.exception.function`
-- `log.excentiontype`
+- `log.exceptiontype`
+
+Git Log Specific:
+
+- `log.function`
+
 
 ## Embedded Highlighting
 
@@ -72,6 +78,8 @@ Currently supported tags:
 - `JSON:{}`
 - `YAML:{}`
 - `PS:{}`
+
+### Further log examples
 
 ## Development
 
