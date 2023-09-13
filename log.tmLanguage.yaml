@@ -24,7 +24,7 @@ variables:
 
 patterns:
 # Functions defined with punctuation
-  - match: (?im)<<hasLogTimeAndLevel>>\b[a-zA-Z]+?([\.#_\-]+\w+?)+?\b\s
+  - match: (?im)<<hasLogTimeAndLevel>>\b[a-zA-Z]+?([\.#_\-/:]+\w+?)+?\b\s
     name: entity.name.function log.function
 
 # Functions defined by brackets/braces/parens
@@ -133,5 +133,4 @@ patterns:
         name: entity.name.function log.function.git.command
       2:
         name: constant.numeric log.constant.numeric.git.duration
-
 
