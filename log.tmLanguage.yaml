@@ -98,9 +98,9 @@ patterns:
 
 # Strings
   - match: \"[^"]*\"
-    name: string.quoted.double log.string
+    name: string.quoted.double log.string.double
   - match: (?<![\w])'[^']*'
-    name: string.quoted.single log.string
+    name: string.quoted.single log.string.single
 
 #Exceptions
   - match: ^[\t ]*at
