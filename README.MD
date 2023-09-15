@@ -56,7 +56,8 @@ You can also specify a parent of a token to affect all tokens of that type. For 
 
 Git Log Specific:
 
-- `log.function`
+- `log.function.git.command`
+- `log.constant.numeric.git.duration`
 
 
 ## Embedded Highlighting
@@ -83,15 +84,11 @@ Currently supported tags:
 
 ## Development
 
-
 This uses several rules inspired by the [Log File Highlighter](https://marketplace.visualstudio.com/items?itemName=emilast.LogFileHighlighter) extension, but by using a YAML template format used by the Typescript TextMate syntax, which has a build script for variables and de-duplication that has been adapted for this purpose that makes authoring the complicated required regexes more manageable
 
-
 To build the extension:
-
 
 - ensure you have `pnpm` installed
 - run `pnpm install --frozen-lockfile`
 - Optional: Run `pnpm grammar` to build the json tmlangauge template from the YAML definition
 - run `pnpm build` to build the vsix extension
-

@@ -6,8 +6,9 @@
 name: Log File
 scopeName: text.log
 variables:
-  date: \d{4}-\d{2}-\d{2}[\s\:T]
-  time: \d{2,}:\d{2}:\d{2}(?:\.\d{3})?(?:Z|[\+\-]\d{2}:\d{2})?
+  date: \d{4}[-/]\d{2}[-/]\d{2}[\s\:T]
+  duration: \d{1,}\.\d{3}
+  time: (?:\d{2}:?){2}?<<duration>>
   datetime: (?:^|\s)(?:<<date>>)?(?:<<time>>)?
   begin: "[\\[\\(\\{]"
   end: "[\\]\\)\\}]"
@@ -32,7 +33,7 @@ patterns:
     name: entity.name.function log.function
 
 # Timestamp
-  - match: <<datetime>>
+  - match: ^<<datetime>>\s
     name: punctuation.definition.tag log.timestamp
 
 # Log Levels
